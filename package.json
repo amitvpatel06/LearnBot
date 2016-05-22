@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kbharathala/fbchatbot.git"
+    "url": "git+https://github.com/amitvpatel06/LearnBot.git"
   },
   "author": "Krishna Bharathala & Amit Patel",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "request": "^2.72.0",
     "safe-eval": "^0.2.0",
     "underscore": "^1.8.3",
-    "yelp": "^1.0.1"
+    "yelp": "^1.0.1", 
+
   },
   "homepage": "https://github.com/kbharathala/fbchatbot#readme"
 }
