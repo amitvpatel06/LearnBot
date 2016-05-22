@@ -87,8 +87,7 @@ var sendWit = function (sender, response){
       messageData = {
           text:response.text
       };
-    }
-    request({
+      request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:token},
         method: 'POST',
@@ -96,13 +95,14 @@ var sendWit = function (sender, response){
             recipient: {id:sender},
             message: messageData,
         }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error);
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
-        }
-    });
+      }, function(error, response, body) {
+          if (error) {
+              console.log('Error sending messages: ', error);
+          } else if (response.body.error) {
+              console.log('Error: ', response.body.error);
+          }
+      });
+    }
     if(response.image) {
       sendImage(sender, response.image);
     }

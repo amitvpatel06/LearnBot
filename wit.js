@@ -5,7 +5,7 @@ var app = require('./app.js');
 var token = config.wit_token;
 var yelp = require('./yelp.js');
 var wolfram = require('./wolfram.js');
-
+var giphy = require('./giphy');
 const firstEntityValue = (entities, entity) => {
   const val = entities && entities[entity] &&
     Array.isArray(entities[entity]) &&
@@ -25,7 +25,16 @@ const actions = {
 			response.image = context.image; 
 		}
 		response.text =  message;	
-	    app.send(app.sessions[sessionId].fbid, response);
+		if(context.GIF  && context.wolfram_query){
+			delete(response.text);
+			giphy.query(context.wolfram_query, context, function(context) {
+				response.image = context.image;
+				app.send(app.sessions[sessionId].fbid, response);
+			});
+		}
+		else{
+			app.send(app.sessions[sessionId].fbid, response);	
+		}
 	    console.log('message sent!');
 	    cb();
 	},
@@ -43,14 +52,29 @@ const actions = {
 		if(wolfram_query){
 			context.wolfram_query = wolfram_query;
 		}
+		if(message.includes('GIF')){
+			context.GIF = true;
+		}
+		if(message.includes('imgur')){
+			context.imgur = true;
+		}	
 	    cb(context);
 	},
 	yelp(sessionId, context, cb){
 		context.text = true;
 		var suggestions = yelp.wit(context['query'], context['loc'], context, cb);
 	},
+	giphy(sessionId, context, cb){
+		giphy.query(context.search_query, context, cb);
+	},
 	wolfram(sessionId, context, cb){
 		var wolf = new wolfram.Wolfram(config.wolfram_token);
+		if(context.GIF){
+			context.image = '';
+			context.text = '';
+			cb(context);
+			return;
+		}
 		var ret = wolf.query(context.wolfram_query, '', context, cb);
 	}, 
 	error(sessionId, context, error) {

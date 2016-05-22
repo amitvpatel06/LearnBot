@@ -19,12 +19,11 @@ Wolfram.prototype.query = function(input, assumptions, context, cb){
 		// implement assumptions
 	}
 	request(url, function (error, response){
-		if(error){
+		if(error || response.statusCode != 200){
 				console.log(error);
 				context.text ='There was an error!'; 
 			return;
 		}
-		console.log (response.statusCode);
 		// var xml = response.split(' ');
 		// console.log(xml);
 		var findpod = function (item, output, pods) {
@@ -40,6 +39,7 @@ Wolfram.prototype.query = function(input, assumptions, context, cb){
 		 	}
 		 	return pods[1]['subpod'][0][output];
 		}
+
 		var res = parser.parseString(response.body, function (err, result){
 			if (err) {
 				console.log(err);
