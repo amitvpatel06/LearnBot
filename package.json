@@ -2,7 +2,7 @@
   "name": "fbchatbot",
   "version": "1.0.0",
   "description": "Facebook Chatbot",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,8 +24,7 @@
     "request": "^2.72.0",
     "safe-eval": "^0.2.0",
     "underscore": "^1.8.3",
-    "yelp": "^1.0.1", 
-
+    "yelp": "^1.0.1"
   },
   "homepage": "https://github.com/kbharathala/fbchatbot#readme"
 }

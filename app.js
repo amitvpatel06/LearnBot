@@ -8,6 +8,9 @@ var verify = config.verify;
 var commands = [];
 var Wit = require('./wit.js');
 var waterfall = require('async-waterfall');
+var mongoose = require('mongoose');
+var router = require('./routes/router.js')
+
 const _ = require("underscore");
 const fs = require('fs');
 const path = require('path')
@@ -35,6 +38,7 @@ app.use(bodyParser.json());
 // Handle messages
 
 function handleCommand (event, callback) {
+
 	var text = event.message.text;
 	var args = text.substring(1).split(' '); 
 	var valid = false;
@@ -61,6 +65,12 @@ function handleCommand (event, callback) {
 		}
 	}
 	else{
+    // WRITE OUT THE DIMENSIONS LATER MAN
+    // WRITE OUT THE DIMENSIONS LATER MAN
+    // WRITE OUT THE DIMENSIONS LATER MAN
+    // WRITE OUT THE DIMENSIONS LATER MAN
+    // WRITE OUT THE DIMENSIONS LATER MAN
+
 		Wit.wit.runActions(
 			sessionID,
 			text,
@@ -74,7 +84,10 @@ function handleCommand (event, callback) {
             delete(context.wolfram_query);
             delete(context.image);
             delete(context.text);
+            delete(context.GIF);
+            delete(context.imgur);
           }
+          // WRITE OUT THE DIMENSIONS LATER MAN// WRITE OUT THE DIMENSIONS LATER MAN// WRITE OUT THE DIMENSIONS LATER MAN
 					sessions[sessionID].context = context;
 					console.log(sessions);
 				}
@@ -201,7 +214,16 @@ app.post('/8079db897316c96776099e73bf49061f696e56b54a21fd4294', function (req, r
 	res.sendStatus(200);
 });
 
+// Supporting web app
+app.use('/LearnBot', router);
 
+
+mongoose.connect('mongodb://localhost/LearnBot');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function(){
+  console.log('Database connected!');
+})
 
 app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'));
